@@ -1,19 +1,14 @@
 package main
 
 import (
+	"finalProject/entity"
 	"fmt"
 	"io/ioutil"
 	"strconv"
 	"strings"
 )
 
-type EmailData struct {
-	Country      string `json:"country"`
-	Provider     string `json:"provider"`
-	DeliveryTime int    `json:"delivery_time"`
-}
-
-func readAndParseEmailDataFile() []EmailData {
+func readAndParseEmailDataFile() []entity.EmailData {
 	fileName := "/Users/mac/go/src/finalProject/simulator/email.data"
 	content, err := ioutil.ReadFile(fileName)
 	if err != nil {
@@ -22,7 +17,7 @@ func readAndParseEmailDataFile() []EmailData {
 	}
 
 	lines := strings.Split(string(content), "\n")
-	var result []EmailData
+	var result []entity.EmailData
 
 	for _, line := range lines {
 		fields := strings.Split(line, ";")
@@ -38,7 +33,7 @@ func readAndParseEmailDataFile() []EmailData {
 				continue
 			}
 
-			email := EmailData{
+			email := entity.EmailData{
 				Country:      country,
 				Provider:     provider,
 				DeliveryTime: deliveryTime,

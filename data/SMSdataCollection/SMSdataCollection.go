@@ -1,19 +1,13 @@
 package main
 
 import (
+	"finalProject/entity"
 	"fmt"
 	"io/ioutil"
 	"strings"
 )
 
-type SMSData struct {
-	Country      string `json:"country"`
-	Bandwidth    string `json:"bandwidth"`
-	ResponseTime string `json:"response_time"`
-	Provider     string `json:"provider"`
-}
-
-func readAndParseFile() []SMSData {
+func readAndParseFile() []entity.SMSData {
 	fileName := "/Users/mac/go/src/finalProject/simulator/SMS.data"
 	content, err := ioutil.ReadFile(fileName)
 	if err != nil {
@@ -22,7 +16,7 @@ func readAndParseFile() []SMSData {
 	}
 
 	lines := strings.Split(string(content), "\n")
-	var result []SMSData
+	var result []entity.SMSData
 
 	for _, line := range lines {
 		sms, valid := validateAndParseLine(line)
@@ -68,10 +62,10 @@ func checkProviderValidity(provider string) bool {
 	return false
 }
 
-func validateAndParseLine(line string) (SMSData, bool) {
+func validateAndParseLine(line string) (entity.SMSData, bool) {
 	fields := strings.Split(line, ";")
 	if len(fields) != 4 {
-		return SMSData{}, false
+		return entity.SMSData{}, false
 	}
 
 	countryCode := fields[0]
@@ -82,7 +76,7 @@ func validateAndParseLine(line string) (SMSData, bool) {
 	countryExists := checkCountryExistence(countryCode)
 	providerValid := checkProviderValidity(provider)
 
-	return SMSData{
+	return entity.SMSData{
 		Country:      countryCode,
 		Bandwidth:    bandwidth,
 		ResponseTime: responseTime,

@@ -1,24 +1,14 @@
 package main
 
 import (
+	"finalProject/entity"
 	"fmt"
 	"io/ioutil"
 	"strconv"
 	"strings"
 )
 
-type VoiceCallData struct {
-	Country             string  `json:"country"`
-	Bandwidth           string  `json:"bandwidth"`
-	ResponseTime        string  `json:"response_time"`
-	Provider            string  `json:"provider"`
-	ConnectionStability float32 `json:"connection_stability"`
-	TTFB                int     `json:"ttfb"`
-	VoicePurity         int     `json:"voice_purity"`
-	MedianOfCallsTime   int     `json:"median_of_calls_time"`
-}
-
-func readAndParseVoiceDataFile() []VoiceCallData {
+func readAndParseVoiceDataFile() []entity.VoiceCallData {
 	fileName := "/Users/mac/go/src/finalProject/simulator/Voice.data"
 	content, err := ioutil.ReadFile(fileName)
 	if err != nil {
@@ -27,7 +17,7 @@ func readAndParseVoiceDataFile() []VoiceCallData {
 	}
 
 	lines := strings.Split(string(content), "\n")
-	var result []VoiceCallData
+	var result []entity.VoiceCallData
 
 	for _, line := range lines {
 		callData, valid := validateAndParseLine(line)
@@ -39,10 +29,10 @@ func readAndParseVoiceDataFile() []VoiceCallData {
 	return result
 }
 
-func validateAndParseLine(line string) (VoiceCallData, bool) {
+func validateAndParseLine(line string) (entity.VoiceCallData, bool) {
 	fields := strings.Split(line, ";")
 	if len(fields) != 8 {
-		return VoiceCallData{}, false
+		return entity.VoiceCallData{}, false
 	}
 
 	country := fields[0]
@@ -51,26 +41,26 @@ func validateAndParseLine(line string) (VoiceCallData, bool) {
 	provider := fields[3]
 	connectionStability, err := strconv.ParseFloat(fields[4], 32)
 	if err != nil {
-		return VoiceCallData{}, false
+		return entity.VoiceCallData{}, false
 	}
 	ttfb, err := strconv.Atoi(fields[5])
 	if err != nil {
-		return VoiceCallData{}, false
+		return entity.VoiceCallData{}, false
 	}
 	voicePurity, err := strconv.Atoi(fields[6])
 	if err != nil {
-		return VoiceCallData{}, false
+		return entity.VoiceCallData{}, false
 	}
 	medianOfCallsTime, err := strconv.Atoi(fields[7])
 	if err != nil {
-		return VoiceCallData{}, false
+		return entity.VoiceCallData{}, false
 	}
 
 	if !checkCountryExistence(country) || !checkProviderValidity(provider) {
-		return VoiceCallData{}, false
+		return entity.VoiceCallData{}, false
 	}
 
-	return VoiceCallData{
+	return entity.VoiceCallData{
 		Country:             country,
 		Bandwidth:           bandwidth,
 		ResponseTime:        responseTime,

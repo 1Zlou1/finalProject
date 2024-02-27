@@ -1,21 +1,13 @@
 package main
 
 import (
+	"finalProject/entity"
 	"fmt"
 	"io/ioutil"
 	"strconv"
 )
 
-type BillingData struct {
-	CreateCustomer bool `json:"create_customer"`
-	Purchase       bool `json:"purchase"`
-	Payout         bool `json:"payout"`
-	Recurring      bool `json:"recurring"`
-	FraudControl   bool `json:"fraud_control"`
-	CheckoutPage   bool `json:"checkout_page"`
-}
-
-func readBillingDataFile() (*BillingData, error) {
+func readBillingDataFile() (*entity.BillingData, error) {
 	fileName := "/Users/mac/go/src/finalProject/simulator/billing.data"
 	content, err := ioutil.ReadFile(fileName)
 	if err != nil {
@@ -31,7 +23,7 @@ func readBillingDataFile() (*BillingData, error) {
 		return nil, err
 	}
 
-	billingData := &BillingData{
+	billingData := &entity.BillingData{
 		CreateCustomer: maskByte&(1<<0) > 0,
 		Purchase:       maskByte&(1<<1) > 0,
 		Payout:         maskByte&(1<<4) > 0,
