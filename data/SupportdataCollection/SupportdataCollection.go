@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"finalProject/entity"
+	"finalProject/service/entity"
 	"fmt"
 	"io/ioutil"
 	"net/http"

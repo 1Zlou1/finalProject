@@ -1,9 +1,11 @@
 package main
 
 import (
-	"finalProject/entity"
+	"encoding/csv"
+	"finalProject/service/entity"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -86,5 +88,36 @@ func validateAndParseLine(line string) (entity.SMSData, bool) {
 
 func main() {
 	smsData := readAndParseFile()
+	reverse(smsData)
 	fmt.Println(smsData)
+}
+
+func reverse(data []entity.SMSData) error {
+	filename := "/Users/mac/go/src/finalProject/allowed/data_csv.csv"
+
+	file, err := os.Open(filename)
+	if err != nil {
+		return fmt.Errorf("Ошибка при открытии файла: %v", err)
+	}
+	defer file.Close()
+
+	rdr := csv.NewReader(file)
+	lines, err := rdr.ReadAll()
+	if err != nil {
+		return fmt.Errorf("Ошибка чтения CSV: %v", err)
+	}
+
+	countryCodeToName := make(map[string]string)
+	for _, line := range lines {
+		countryCodeToName[line[1]] = line[0]
+	}
+
+	for i := range data {
+		fullCountryName, ok := countryCodeToName[data[i].Country]
+		if ok {
+			data[i].Country = fullCountryName
+		}
+	}
+
+	return nil
 }

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"finalProject/entity"
+	"finalProject/service/entity"
 	"fmt"
 	"io/ioutil"
 	"strconv"
