@@ -1,11 +1,13 @@
 package MMS
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"finalProject/service/entity"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -70,7 +72,38 @@ func sendGetRequest() []entity.MMSData {
 	return validMMSData
 }
 
+func reverse(data []entity.MMSData) (error, []entity.MMSData) {
+	filename := "/Users/mac/go/src/finalProject/allowed/data_csv.csv"
+
+	file, err := os.Open(filename)
+	if err != nil {
+		return fmt.Errorf("Ошибка при открытии файла: %v", err), nil
+	}
+	defer file.Close()
+
+	rdr := csv.NewReader(file)
+	lines, err := rdr.ReadAll()
+	if err != nil {
+		return fmt.Errorf("Ошибка чтения CSV: %v", err), nil
+	}
+
+	countryCodeToName := make(map[string]string)
+	for _, line := range lines {
+		countryCodeToName[line[1]] = line[0]
+	}
+
+	for i := range data {
+		fullCountryName, ok := countryCodeToName[data[i].Country]
+		if ok {
+			data[i].Country = fullCountryName
+		}
+	}
+
+	return nil, data
+}
+
 func MMSRun() []entity.MMSData {
 	mmsData := sendGetRequest()
+	reverse(mmsData)
 	return mmsData
 }

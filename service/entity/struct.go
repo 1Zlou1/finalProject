@@ -57,10 +57,8 @@ type BillingData struct {
 }
 
 type SupportData struct {
-	ID      int    `json:"id"`
-	Name    string `json:"name"`
-	Email   string `json:"email"`
-	Product string `json:"product"`
+	Topic         string `json:"topic"`
+	ActiveTickets int    `json:"active_tickets"`
 }
 
 type IncidentData struct {
