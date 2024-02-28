@@ -1,6 +1,9 @@
 package main
 
 import (
+	"encoding/json"
+	"finalProject/service/data"
+	"finalProject/service/entity"
 	"fmt"
 	"net/http"
 
@@ -8,7 +11,21 @@ import (
 )
 
 func handleConnection(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "ok")
+
+	result := &entity.ResultT{}
+	resultData := data.GetAllResults()
+
+	// не могу обработать ошибки об отсутствии значений
+
+	result.Data = resultData
+
+	resultJSON, err := json.Marshal(result)
+	if err != nil {
+		fmt.Fprint(w, "Error:", err)
+		return
+	}
+
+	fmt.Fprint(w, string(resultJSON))
 }
 
 func main() {
