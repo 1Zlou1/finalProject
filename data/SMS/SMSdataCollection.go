@@ -1,4 +1,4 @@
-package main
+package SMS
 
 import (
 	"encoding/csv"
@@ -86,25 +86,19 @@ func validateAndParseLine(line string) (entity.SMSData, bool) {
 	}, countryExists && providerValid
 }
 
-func main() {
-	smsData := readAndParseFile()
-	reverse(smsData)
-	fmt.Println(smsData)
-}
-
-func reverse(data []entity.SMSData) error {
+func reverse(data []entity.SMSData) (error, []entity.SMSData) {
 	filename := "/Users/mac/go/src/finalProject/allowed/data_csv.csv"
 
 	file, err := os.Open(filename)
 	if err != nil {
-		return fmt.Errorf("Ошибка при открытии файла: %v", err)
+		return fmt.Errorf("Ошибка при открытии файла: %v", err), nil
 	}
 	defer file.Close()
 
 	rdr := csv.NewReader(file)
 	lines, err := rdr.ReadAll()
 	if err != nil {
-		return fmt.Errorf("Ошибка чтения CSV: %v", err)
+		return fmt.Errorf("Ошибка чтения CSV: %v", err), nil
 	}
 
 	countryCodeToName := make(map[string]string)
@@ -119,5 +113,11 @@ func reverse(data []entity.SMSData) error {
 		}
 	}
 
-	return nil
+	return nil, data
+}
+
+func SMSRun() []entity.SMSData {
+	smsData := readAndParseFile()
+	reverse(smsData)
+	return smsData
 }

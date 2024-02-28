@@ -1,4 +1,4 @@
-package main
+package Billing
 
 import (
 	"finalProject/service/entity"
@@ -48,4 +48,14 @@ func main() {
 	fmt.Println("Recurring:", billingData.Recurring)
 	fmt.Println("FraudControl:", billingData.FraudControl)
 	fmt.Println("CheckoutPage:", billingData.CheckoutPage)
+
+}
+
+func RunBilling() *entity.BillingData {
+	billingData, err := readBillingDataFile()
+	if err != nil {
+		fmt.Println("Ошибка при чтении файла:", err)
+		return nil
+	}
+	return billingData
 }

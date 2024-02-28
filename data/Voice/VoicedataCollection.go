@@ -1,4 +1,4 @@
-package main
+package Voice
 
 import (
 	"finalProject/service/entity"
@@ -104,7 +104,7 @@ func checkProviderValidity(provider string) bool {
 	return valid
 }
 
-func main() {
+func RunVoice() []entity.VoiceCallData {
 	voiceCallData := readAndParseVoiceDataFile()
-	fmt.Println(voiceCallData)
+	return voiceCallData
 }

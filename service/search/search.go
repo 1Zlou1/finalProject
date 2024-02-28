@@ -1,111 +1,50 @@
 package main
 
 import (
-	"fmt"
+	"finalProject/data/MMS"
+	"finalProject/data/SMS"
+	"finalProject/service/entity"
 )
 
-type SMSData struct {
-	Country      string
-	Provider     string
-	DeliveryTime int
-}
+func main() {
 
-type MMSData struct {
-	Country      string
-	Provider     string
-	DeliveryTime int
-}
+	// Получение данных
+	smsData := SMS.SMSRun()
+	mmsData := MMS.MMSRun()
+	emailData := getEmailDataFromSource()
+	// ...
 
-type VoiceCallData struct {
-	// ваша структура VoiceCallData
-}
+	// Задание 2: Получение данных по sms и подготовка 2 отсортированных списка
+	smsByProvider := sortByProvider(smsData)
+	smsByCountry := sortByCountry(smsData)
 
-type EmailData struct {
-	Country      string
-	Provider     string
-	DeliveryTime int
-}
+	// Задание 3: Получение данных по mms и подготовка 2 отсортированных списка
+	mmsByProvider := sortByProvider(mmsData)
+	mmsByCountry := sortByCountry(mmsData)
 
-type BillingData struct {
-	// ваша структура BillingData
-}
+	// Задание 5: Получение данных по электронной почте и формирование map со списками провайдеров
+	emailByCountry := prepareEmailByCountryData(emailData)
 
-type SupportData struct {
-	// ваша структура SupportData
-}
+	// Задание 7: Получение данных о системе Support и расчет общего состояния нагрузки
+	supportLoad, avgWaitTime := calculateSupportData(supportData)
 
-type IncidentData struct {
-	Status string
-	// другие поля для инцидентов
-}
+	// Получение данных об истории инцидентов и сортировка
+	sortedIncidents := sortIncidents(incidentsData)
 
-type ResultSetT struct {
-	SMS     [][]SMSData
-	MMS     [][]MMSData
-	Voice   []VoiceCallData
-	Email   map[string][]EmailData
-	Billing BillingData
-	Support struct {
-		Load    int
-		AvgWait int
-	}
-	Incidents []IncidentData
-}
-
-func sortByCountryAndProvider(sms []SMSData, orderByCountry bool) []SMSData {
-	// подготовка и сортировка данных
-	return sms
-}
-
-func getResultData() ResultSetT {
-	// Получение SMS, MMS, VoiceCall, Email, Support, Billing и Incidents
-
-	smsData := []SMSData{} // Получите ваши данные из источника
-
-	// Получение данных по SMS и подготовить 2 отсортированных списка
-	smsByProvider := sortByCountryAndProvider(smsData, false)
-	smsByCountry := sortByCountryAndProvider(smsData, true)
-
-	// Получение MMSData из источника
-	mmsData := []MMSData{} // Получите ваши данные откуда-то
-
-	// Получение данных по MMS и подготовить 2 отсортированных списка
-	// Аналогично, как и со списками SMSData
-
-	voiceData := []VoiceCallData{} // Получите ваши данные
-
-	// Получение данных по VoiceCall
-
-	emailData := []EmailData{} // Получите ваши данные
-
-	// Получение данных по Email и преобразовать их в map[string][]EmailData
-
-	supportData := SupportData{} // Получите ваши данные
-
-	// Получение данных о системе Support
-
-	incidentsData := []IncidentData{} // Получите ваши данные
-
-	// Получение данных об истории инцидентов.
-
-	result := ResultSetT{
-		SMS:   [][]SMSData{smsByProvider, smsByCountry},
-		MMS:   [][]MMSData{}, // аналогично с MMS
-		Voice: voiceData,
-		Email: map[string][]EmailData{}, // аналогично с Email
+	// Формирование ResultSetT
+	resultSet := ResultSetT{
+		main2.SMS: [][]SMSData{smsByProvider, smsByCountry},
+		MMS:       [][]MMSData{mmsByProvider, mmsByCountry},
+		Email:     emailByCountry,
 		Support: struct {
 			Load    int
 			AvgWait int
-		}{},
-		Incidents: incidentsData,
+		}{Load: supportLoad, AvgWait: avgWaitTime},
+		Incidents: sortedIncidents,
 	}
-
-	// Если есть данные о системе Support, заполните соответствующие поля.
-
-	return result
+	// ...
 }
 
-func main() {
-	resultData := getResultData()
-	fmt.Println(resultData)
+func getResultData() entity.ResultSetT {
+	entity.ResultSetT{}
 }

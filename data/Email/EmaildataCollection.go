@@ -1,4 +1,4 @@
-package main
+package Email
 
 import (
 	"finalProject/service/entity"
@@ -77,7 +77,7 @@ func checkProviderValidity(provider string) bool {
 	return valid
 }
 
-func main() {
+func RunEmail() []entity.EmailData {
 	emailData := readAndParseEmailDataFile()
-	fmt.Println(emailData)
+	return emailData
 }

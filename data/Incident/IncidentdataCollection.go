@@ -1,4 +1,4 @@
-package main
+package Incident
 
 import (
 	"encoding/json"
@@ -8,36 +8,36 @@ import (
 	"net/http"
 )
 
-func getSupportData() []entity.SupportData {
-	url := "http://127.0.0.1:8484"
+func getIncidentData() []entity.IncidentData {
+	url := "http://127.0.0.1:8585"
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("Ошибка при отправке GET запроса:", err)
-		return []entity.SupportData{}
+		return []entity.IncidentData{}
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		fmt.Println("Ошибка! Получен некорректный код ответа:", resp.StatusCode)
-		return []entity.SupportData{}
+		return []entity.IncidentData{}
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Ошибка при чтении ответа:", err)
-		return []entity.SupportData{}
+		return []entity.IncidentData{}
 	}
 
-	var supportData []entity.SupportData
-	if err := json.Unmarshal(body, &supportData); err != nil {
+	var incidentData []entity.IncidentData
+	if err := json.Unmarshal(body, &incidentData); err != nil {
 		fmt.Println("Ошибка при разборе JSON:", err)
-		return []entity.SupportData{}
+		return []entity.IncidentData{}
 	}
 
-	return supportData
+	return incidentData
 }
 
-func main() {
-	supportData := getSupportData()
-	fmt.Println(supportData)
+func RunIncident() []entity.IncidentData {
+	incidentData := getIncidentData()
+	return incidentData
 }

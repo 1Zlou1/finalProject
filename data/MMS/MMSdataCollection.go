@@ -1,4 +1,4 @@
-package main
+package MMS
 
 import (
 	"encoding/json"
@@ -9,7 +9,6 @@ import (
 	"strings"
 )
 
-// Функция для отправки GET запроса и разбора полученного ответа в структуры
 func sendGetRequest() []entity.MMSData {
 	url := "http://127.0.0.1:8383"
 	resp, err := http.Get(url)
@@ -71,7 +70,7 @@ func sendGetRequest() []entity.MMSData {
 	return validMMSData
 }
 
-func main() {
+func MMSRun() []entity.MMSData {
 	mmsData := sendGetRequest()
-	fmt.Println(mmsData)
+	return mmsData
 }
