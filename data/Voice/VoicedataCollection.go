@@ -9,7 +9,7 @@ import (
 )
 
 func readAndParseVoiceDataFile() []entity.VoiceCallData {
-	fileName := "/Users/mac/go/src/finalProject/simulator/Voice.data"
+	fileName := "/Users/mac/go/src/finalProject/simulator/simulator/Voice.data"
 	content, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		fmt.Println("Ошибка при чтении файла:", err)

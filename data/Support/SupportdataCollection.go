@@ -9,7 +9,7 @@ import (
 )
 
 func getSupportData() []entity.SupportData {
-	url := "http://127.0.0.1:8484"
+	url := "http://127.0.0.1:8383/support"
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("Ошибка при отправке GET запроса:", err)

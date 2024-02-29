@@ -10,7 +10,7 @@ import (
 )
 
 func readAndParseFile() []entity.SMSData {
-	fileName := "/Users/mac/go/src/finalProject/simulator/SMS.data"
+	fileName := "/Users/mac/go/src/finalProject/simulator/simulator/SMS.data"
 	content, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		fmt.Println("Ошибка при чтении файла:", err)

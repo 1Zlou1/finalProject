@@ -11,33 +11,33 @@ import (
 )
 
 func handleConnection(w http.ResponseWriter, r *http.Request) {
-
 	result := &entity.ResultT{}
+
 	resultData := data.GetAllResults()
-
-	// не могу обработать ошибки об отсутствии значений
-
 	result.Data = resultData
+
+	fmt.Println(result.Data)
 
 	resultJSON, err := json.Marshal(result)
 	if err != nil {
-		fmt.Fprint(w, "Error:", err)
+		http.Error(w, "Ошибка обработки данных", http.StatusInternalServerError)
 		return
 	}
 
-	fmt.Fprint(w, string(resultJSON))
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(resultJSON)
 }
 
 func main() {
 	r := mux.NewRouter()
-	r.HandleFunc("/", handleConnection).Methods("GET")
+	r.HandleFunc("/api", handleConnection).Methods("GET")
 
 	srv := &http.Server{
-		Addr:    "localhost:8282",
+		Addr:    "127.0.0.1:8282",
 		Handler: r,
 	}
 
-	fmt.Println("Сервер запущен на localhost:8282")
+	fmt.Println("Сервер запущен на 127.0.0.1:8282/api")
 	if err := srv.ListenAndServe(); err != nil {
 		fmt.Printf("Ошибка запуска сервера: %v\n", err)
 	}

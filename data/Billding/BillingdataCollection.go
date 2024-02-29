@@ -8,7 +8,7 @@ import (
 )
 
 func readBillingDataFile() (*entity.BillingData, error) {
-	fileName := "/Users/mac/go/src/finalProject/simulator/billing.data"
+	fileName := "/Users/mac/go/src/finalProject/simulator/simulator/billing.data"
 	content, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		return nil, err

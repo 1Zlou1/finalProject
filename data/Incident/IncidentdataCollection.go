@@ -9,7 +9,7 @@ import (
 )
 
 func getIncidentData() []entity.IncidentData {
-	url := "http://127.0.0.1:8585"
+	url := "http://127.0.0.1:8383/accendent"
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("Ошибка при отправке GET запроса:", err)
